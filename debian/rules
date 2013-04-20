@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+
+PACKAGE=ranch
+VERSION = $(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9.]+)(\+dfsg)?.*$$/\1/p')
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	dh_auto_install
+
+	install -d \
+		$(CURDIR)/debian/erlang-$(PACKAGE)/usr/lib/erlang/lib/$(PACKAGE)-$(VERSION)/ebin
+	install -m 644 ebin/* \
+		$(CURDIR)/debian/erlang-$(PACKAGE)/usr/lib/erlang/lib/$(PACKAGE)-$(VERSION)/ebin/
+
+override_dh_gencontrol-arch:
+	erlang-depends -v -a -perlang-ranch
+	dh_gencontrol -a -perlang-ranch
+
+override_dh_compress:
+	dh_compress -X.erl -X.beam
