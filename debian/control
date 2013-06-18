@@ -21,3 +21,20 @@ Description: socket acceptor pool for TCP protocols in Erlang
  erlang-ranch aims to provide everything you need to accept TCP connections 
  with a small code base and low latency while being easy to use directly
  as an application or to embed into your own.
+
+Package: erlang-ranch-doc
+Architecture: all
+Section: doc
+Priority: optional
+Depends: ${misc:Depends}
+Description: Documentation of erlang-ranch
+ erlang-ranch aims to provide everything you need to accept TCP connections 
+ with a small code base and low latency while being easy to use directly
+ as an application or to embed into your own.
+ .
+ This package contains the html documentation of erlang-ranch API.
+ .
+ Only application developers will find this package useful.
+
+
+

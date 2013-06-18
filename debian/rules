@@ -6,6 +6,19 @@ VERSION = $(shell dpkg-parsechangelog | sed -rne 's/^Version: ([0-9.]+)(\+dfsg)?
 %:
 	dh $@
 
+override_dh_auto_clean:
+	rm -rf doc/*.html
+	rm -rf doc/*.css
+	rm -rf doc/*.png
+	rm -rf doc/edoc-info
+
+	dh_auto_clean
+
+override_dh_auto_build-arch:
+	make
+override_dh_auto_build-indep:
+	make docs
+
 override_dh_auto_install:
 	dh_auto_install
 
@@ -15,7 +28,7 @@ override_dh_auto_install:
 		$(CURDIR)/debian/erlang-$(PACKAGE)/usr/lib/erlang/lib/$(PACKAGE)-$(VERSION)/ebin/
 
 override_dh_gencontrol-arch:
-	erlang-depends -v -a -perlang-ranch
+	erlang-depends -a -perlang-ranch
 	dh_gencontrol -a -perlang-ranch
 
 override_dh_compress:

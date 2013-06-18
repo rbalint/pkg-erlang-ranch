@@ -1,0 +1,4 @@
+doc
+#doc/*.png
+#doc/*.html
+#doc/*.css
