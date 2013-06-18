@@ -6,9 +6,9 @@ Priority: optional
 Standards-Version: 3.9.4
 Build-Depends: debhelper (>= 9), dpkg-dev (>= 1.16.1~),
 	erlang-dev (>= 1:14.b.4), erlang-eunit (>= 1:14.b.4),
-Homepage: https://www.github.com/leo-project/cherly.git
-Vcs-Git: git://anonscm.debian.org/pkg-leofs/erlang-cherly.git
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-leofs/erlang-cherly.git;a=summary
+Homepage: https://github.com/extend/ranch
+Vcs-Git: git://anonscm.debian.org/pkg-leofs/erlang-ranch.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-leofs/erlang-ranch.git;a=summary
 
 Package: erlang-ranch
 Architecture: any
@@ -17,15 +17,7 @@ Priority: optional
 Depends: ${shlibs:Depends}, ${misc:Depends},
 	erlang-base-hipe | erlang-base | ${erlang-abi:Depends},
 	${erlang:Depends}
-Description: socket acceptor pool for TCP protocols
- Cherly (sher-lee) was originally developed by Cliff Moon for erlang to deal
- with in memory caching based on LRU. Its functionality and performance were
- awesome, but as time goes on, its implementation gradually obsoletes and it's
- hard to maintain. To overcome these problems, I forked and made Cherly improve
- with original purposes. Main improvements are described below.
-  * Replaced the hash storing structure (originally used Judy hash) with the
-    combination of Open addressing and Tree structure based on golang's hash
-    implementation. This structure is very scalable and stable.
-  * Implemented slab allocator on off-heap.
-  * Replaced implemantations of port driver with NIFs.
-  * Rebarized
+Description: socket acceptor pool for TCP protocols in Erlang
+ erlang-ranch aims to provide everything you need to accept TCP connections 
+ with a small code base and low latency while being easy to use directly
+ as an application or to embed into your own.
