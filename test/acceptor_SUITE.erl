@@ -116,11 +116,11 @@ misc_bad_transport(_) ->
 
 %% ssl.
 
-ssl_accept_error(Config) ->
+ssl_accept_error(_) ->
 	Name = ssl_accept_error,
+	{_, Cert, Key} = ct_helper:make_certs(),
 	{ok, ListenerSup} = ranch:start_listener(Name, 1,
-		ranch_ssl, [{port, 0},
-			{certfile, ?config(data_dir, Config) ++ "cert.pem"}],
+		ranch_ssl, [{port, 0}, {cert, Cert}, {key, Key}],
 		echo_protocol, []),
 	Port = ranch:get_port(Name),
 	ListenerSupChildren = supervisor:which_children(ListenerSup),
@@ -136,19 +136,20 @@ ssl_accept_error(Config) ->
 	true = is_process_alive(AcceptorPid),
 	ranch:stop_listener(Name).
 
-ssl_accept_socket(Config) ->
+ssl_accept_socket(_) ->
 	%%% XXX we can't do the spawn to test the controlling process change
 	%%% because of the bug in ssl
 	Name = ssl_accept_socket,
+	{_, Cert, Key} = ct_helper:make_certs(),
 	{ok, S} = ssl:listen(0,
-		[{certfile, ?config(data_dir, Config) ++ "cert.pem"}, binary,
+		[{cert, Cert}, {key, Key}, binary,
 			{active, false}, {packet, raw}, {reuseaddr, true}]),
 	{ok, _} = ranch:start_listener(Name, 1,
 		ranch_ssl, [{socket, S}], echo_protocol, []),
 	Port = ranch:get_port(Name),
 	{ok, Socket} = ssl:connect("localhost", Port,
 		[binary, {active, false}, {packet, raw},
-		{certfile, ?config(data_dir, Config) ++ "cert.pem"}]),
+		{cert, Cert}, {key, Key}]),
 	ok = ssl:send(Socket, <<"TCP Ranch is working!">>),
 	{ok, <<"TCP Ranch is working!">>} = ssl:recv(Socket, 21, 1000),
 	ok = ranch:stop_listener(Name),
@@ -157,16 +158,16 @@ ssl_accept_socket(Config) ->
 	{'EXIT', _} = begin catch ranch:get_port(Name) end,
 	ok.
 
-ssl_active_echo(Config) ->
+ssl_active_echo(_) ->
 	Name = ssl_active_echo,
+	{_, Cert, Key} = ct_helper:make_certs(),
 	{ok, _} = ranch:start_listener(Name, 1,
-		ranch_ssl, [{port, 0},
-			{certfile, ?config(data_dir, Config) ++ "cert.pem"}],
+		ranch_ssl, [{port, 0}, {cert, Cert}, {key, Key}],
 		active_echo_protocol, []),
 	Port = ranch:get_port(Name),
 	{ok, Socket} = ssl:connect("localhost", Port,
 		[binary, {active, false}, {packet, raw},
-		{certfile, ?config(data_dir, Config) ++ "cert.pem"}]),
+		{cert, Cert}, {key, Key}]),
 	ok = ssl:send(Socket, <<"SSL Ranch is working!">>),
 	{ok, <<"SSL Ranch is working!">>} = ssl:recv(Socket, 21, 1000),
 	ok = ranch:stop_listener(Name),
@@ -175,16 +176,16 @@ ssl_active_echo(Config) ->
 	{'EXIT', _} = begin catch ranch:get_port(Name) end,
 	ok.
 
-ssl_echo(Config) ->
+ssl_echo(_) ->
 	Name = ssl_echo,
+	{_, Cert, Key} = ct_helper:make_certs(),
 	{ok, _} = ranch:start_listener(Name, 1,
-		ranch_ssl, [{port, 0},
-			{certfile, ?config(data_dir, Config) ++ "cert.pem"}],
+		ranch_ssl, [{port, 0}, {cert, Cert}, {key, Key}],
 		echo_protocol, []),
 	Port = ranch:get_port(Name),
 	{ok, Socket} = ssl:connect("localhost", Port,
 		[binary, {active, false}, {packet, raw},
-		{certfile, ?config(data_dir, Config) ++ "cert.pem"}]),
+		{cert, Cert}, {key, Key}]),
 	ok = ssl:send(Socket, <<"SSL Ranch is working!">>),
 	{ok, <<"SSL Ranch is working!">>} = ssl:recv(Socket, 21, 1000),
 	ok = ranch:stop_listener(Name),
