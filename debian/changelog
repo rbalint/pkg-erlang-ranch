@@ -1,3 +1,9 @@
+erlang-ranch (0.8.4-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Nobuhiro Iwamatsu <iwamatsu@debian.org>  Fri, 05 Jul 2013 08:34:30 +0900
+
 erlang-ranch (0.8.3-1) unstable; urgency=low
 
   * Initial release. (Closes: #705907)
