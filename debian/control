@@ -13,7 +13,6 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-leofs/erlang-ranch.git;a=su
 Package: erlang-ranch
 Architecture: any
 Section: devel
-Priority: optional
 Depends: ${shlibs:Depends}, ${misc:Depends},
 	erlang-base-hipe | erlang-base | ${erlang-abi:Depends},
 	${erlang:Depends}
@@ -25,7 +24,6 @@ Description: socket acceptor pool for TCP protocols in Erlang
 Package: erlang-ranch-doc
 Architecture: all
 Section: doc
-Priority: optional
 Depends: ${misc:Depends}
 Description: Documentation of erlang-ranch
  erlang-ranch aims to provide everything you need to accept TCP connections 
